@@ -11,6 +11,8 @@
 
 @interface ViewController ()
 
+@property (nonatomic) MyScrollView *scrollView;
+
 @end
 
 @implementation ViewController
@@ -18,13 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-//    UIView *mainView = [[UIView alloc] initWithFrame:self.view.bounds];
-//    [self.view addSubview:mainView];
-    
     MyScrollView *scrollView = [[MyScrollView alloc] initWithFrame:self.view.bounds];
-    
-    // the scrollview's contentSize is equal to the largest X + width and Largest Y + height
-//    scrollView.contentSize = CGSizeMake(300, 750);
     [self.view addSubview:scrollView];
     
     UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(20, 20, 100, 100)];
@@ -46,7 +42,6 @@
 
 
 //- (void) viewDidAppear:(BOOL)animated {
-//    
 //    CGRect newBounds = CGRectMake(0, 100, self.view.bounds.size.width, self.view.bounds.size.height);
 //    [self.view setBounds:newBounds];
 //}
