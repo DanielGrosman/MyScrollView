@@ -19,9 +19,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     MyScrollView *scrollView = [[MyScrollView alloc] initWithFrame:self.view.bounds];
     [self.view addSubview:scrollView];
+    
+    UIView *containerView = [[UIView alloc] init];
+    [containerView setFrame:CGRectMake(0, 0, containerView.bounds.size.width, self.view.bounds.size.height + 200)];
+    [scrollView addSubview:containerView];
+    scrollView.contentSize = containerView.bounds.size;
     
     UIView *redView = [[UIView alloc] initWithFrame:CGRectMake(20, 20, 100, 100)];
     redView.backgroundColor = [UIColor redColor];

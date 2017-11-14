@@ -21,26 +21,28 @@
     if (self) {
         UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(viewWasPanned:)];
         [self addGestureRecognizer:panGesture];
-        
-       _contentSize = CGSizeMake(300, 750);
     }
     return self;
 }
 
 - (void)viewWasPanned:(UIPanGestureRecognizer *) sender {
-// correct method: 1. Calculate the difference between the height of the scrollView and the height of the screen (e.g. let's say it's 100 pts) 2. Allow pan for 100 points (check that the translationInView is less than 100)
-CGPoint translation = [sender translationInView:self];
-CGFloat y = translation.y - self.lastLocation.y;
-
-if (self.frame.origin.y + y >= [[UIScreen mainScreen] bounds].size.height - self.frame.size.height && self.frame.origin.y + y <= 0) {
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y + y, 400, 750);
-}
-
-self.lastLocation = translation;
-
-if (sender.state == UIGestureRecognizerStateEnded) {
-    self.lastLocation = CGPointMake(0, 0);
-}
+    
+    // sets the point (x,y) after the pan
+    CGPoint translation = [sender translationInView:self];
+    // creates a rect with the current bounds of the scrollView
+    CGRect bounds = self.bounds;
+    // creates a float with the difference in Y value between where the pan began and ended
+    CGFloat newBoundsOriginY = bounds.origin.y - translation.y;
+    //  creates a float with a value of 0
+    CGFloat minBoundsOriginY = 0.0;
+    // creates a float with a value of the contentSize height (origin +200, defined in the viewController) minues the bounds.size.height (origin size)
+    CGFloat maxBoundsOriginY = self.contentSize.height - bounds.size.height;
+    // ??
+    bounds.origin.y = fmax(minBoundsOriginY, fmin(newBoundsOriginY, maxBoundsOriginY));
+    // updates the bounds with the update Y origin
+    self.bounds = bounds;
+    
+    [sender setTranslation:CGPointZero inView:self];
 }
 
 @end
